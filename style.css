@@ -1,0 +1,35 @@
+.hex{
+	height: 500px;
+	background-image: "minimalist_ore.png";
+}
+
+span{
+	color: red;
+}
+
+svg{
+	border: solid black 1px;
+	background-color: #307fe6;
+	display: inline;
+}
+
+	polygon{
+		stroke: black;
+	}
+
+.text {
+	text-align: center;
+}
+
+#resources {
+	border: solid black 1px;
+}
+
+#resources th, #resources td {
+	width: 50px;
+	border: solid black 1px;
+}
+
+#resources td {
+	text-align: right;
+}
