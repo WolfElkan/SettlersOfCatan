@@ -67,6 +67,8 @@ class Origin extends Point {
 class HexPoint extends Point {
 	constructor(x, y) {
 		super()
+		this.nx = x
+		this.ny = y
 		this.x = origin.x + (x * K * Math.sqrt(3) / 2)
 		this.y = origin.y - (y * K / 2)
 	}
@@ -75,6 +77,9 @@ class HexPoint extends Point {
 class SynPoint extends Point {
 	constructor(x, y, z) {
 		super()
+		this.nx = x
+		this.ny = y
+		this.nz = z
 		this.x = origin.x + (y - z) * Math.sqrt(3) * K / 2;
 		this.y = origin.y + (x - ((y + z) / 2)) * K;
 	}
@@ -392,37 +397,46 @@ class Token {
 }
 
 class Port {
-	constructor(center, color, rotation, rate) {
+	constructor(center, color, rate) {
 		// center.x += 0.27 * K
 		this.center = center
 		this.color = color
-		rotation -= 11
-		this.rotation = rotation
 		this.rate = rate
 
-		var parallels = {
-			x : {
-				lef : center.x - (K * 0.03),
-				cen : center.x + (K * 0.27),
-				rig : center.x + (K * 0.57),
-			},
-			y : {
-				top : center.y - (K * 0.34),
-				hig : center.y - (K * 0.23),
-				mid : center.y - (K * 0.08),
-				bot : center.y + (K * 0.34),
-			}
+		// var parallels = {
+		// 	x : {
+		// 		lef : center.x - (K * 0.03),
+		// 		cen : center.x + (K * 0.27),
+		// 		rig : center.x + (K * 0.57),
+		// 	},
+		// 	y : {
+		// 		top : center.y - (K * 0.34),
+		// 		hig : center.y - (K * 0.23),
+		// 		mid : center.y - (K * 0.08),
+		// 		bot : center.y + (K * 0.34),
+		// 	}
+		// }
+		if ((center.nx + 0.5 + center.ny) % 2) {
+			this.points = [
+				new HexPoint(center.nx+0.5,center.ny+1),
+				new HexPoint(center.nx-0.5,center.ny),
+				new HexPoint(center.nx+0.5,center.ny-1),
+			]
+		} else {
+			this.points = [
+				new HexPoint(center.nx-0.5,center.ny+1),
+				new HexPoint(center.nx+0.5,center.ny),
+				new HexPoint(center.nx-0.5,center.ny-1),
+			]
 		}
-		this.points = [
-			new Point(parallels.x.cen, parallels.y.top), 
-			new Point(parallels.x.rig, parallels.y.mid), 
-			new Point(parallels.x.rig, parallels.y.bot), 
-			new Point(parallels.x.lef, parallels.y.bot), 
-			new Point(parallels.x.lef, parallels.y.hig)
-		]
-		for (var i = 0; i < this.points.length; i++) {
-			this.points[i].rotate(center, rotation)
-		}
+		// [
+		// 	new Point(center.x,center.y), 
+		// 	new Point(parallels.x.rig, parallels.y.mid), 
+		// 	new Point(parallels.x.rig, parallels.y.bot), 
+		// ]
+		// for (var i = 0; i < this.points.length; i++) {
+		// 	this.points[i].rotate(center, rotation)
+		// }
 	}
 	poly() {
 		return new Polygon(this.points, {fill:this.color})
@@ -430,11 +444,11 @@ class Port {
 	text() {
 		var size = 0.25 * K
 		var base = 0.10 * K
-		var move = 0.27 * K
+		var move = 0.00 * K
 		// move.rotate(this.center, this.rotation)
 		return new Element('text', {
-			x: this.center.x + move,
-			y: this.center.y + base,
+			x: (this.points[0].x+this.points[1].x+this.points[2].x)/3 + move,
+			y: (this.points[0].y+this.points[1].y+this.points[2].y)/3 + base,
 			fill: this.textcolor,
 			'text-anchor': 'middle',
 			style: {
@@ -592,18 +606,16 @@ for (var i = 0; i < 18; i++) {
 	})
 }
 
-// shuffle(tokens)
-// shuffle(resources)
-
-console.log()
+shuffle(tokens)
+shuffle(resources)
 
 var red    = '#ff0000'
 var blue   = '#0000ff'
 var white  = '#dddddd'
 var orange = '#ff8000'
 
-new Port(new HexPoint(-3,-8), white, 0, '3:1').render()
-new Port(new HexPoint(-5,-3), grain, 60, '2:1').render()
+// new Port(new HexPoint(-3,-8), white, 0, '3:1').render()
+// new Port(new HexPoint(-5,-3), grain, 60, '2:1').render()
 
 var t = 0
 for (var i = 0; i < 19; i++) {
@@ -622,36 +634,36 @@ for (var i = 0; i < 19; i++) {
 
 // f.render()
 
-var bench_width =  2*K
-var bench_depth =  30
+// var bench_width =  2*K
+// var bench_depth =  30
 
 var br = {
 	'x': origin.x * 2,
 	'y': origin.y * 2,
 }
 
-bench_width /= 2
+// bench_width /= 2
 
-var bench_sides = [
-//	lef,	rig,	bot,	top
-	[origin.x - bench_width, origin.x + bench_width, br.y - bench_depth, br.y], // South
-	[br.x - bench_depth, br.x, origin.y - bench_width, origin.x + bench_width], // East
-	[origin.x - bench_width, origin.x + bench_width, bench_depth, 0], // North
-	[0, bench_depth, origin.y - bench_width, origin.x + bench_width], // West
-]
+// var bench_sides = [
+// //	lef,	rig,	bot,	top
+// 	[origin.x - bench_width, origin.x + bench_width, br.y - bench_depth, br.y], // South
+// 	[br.x - bench_depth, br.x, origin.y - bench_width, origin.x + bench_width], // East
+// 	[origin.x - bench_width, origin.x + bench_width, bench_depth, 0], // North
+// 	[0, bench_depth, origin.y - bench_width, origin.x + bench_width], // West
+// ]
 
-class PlayerBench extends Rectangle {
-	constructor(xxyy, options) {
-		super(xxyy[0], xxyy[1], xxyy[2], xxyy[3], options)
-	}
-}
+// class PlayerBench extends Rectangle {
+// 	constructor(xxyy, options) {
+// 		super(xxyy[0], xxyy[1], xxyy[2], xxyy[3], options)
+// 	}
+// }
 
 
 class Player {
 	constructor(name, color, side) {
 		this.player_name = name
 		this.color = color
-		this.bench = new PlayerBench(bench_sides[side],{'fill':color})
+		// this.bench = new PlayerBench(bench_sides[side],{'fill':color})
 		// this.bench.render()
 		this.resources = {
 			'brick':0,
@@ -680,3 +692,10 @@ class Player {
 		return element
 	}
 }
+
+// Coordinate Labels 
+
+// for (var i = -9; i <= 9; i++) {
+// 	new Text(i,new HexPoint(-5.4,i)).render()
+// 	new Text(i,new HexPoint(i,-9)).render()
+// }

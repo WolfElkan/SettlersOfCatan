@@ -34,6 +34,7 @@ function swap(arr, a, b) {
 }
 
 function shuffle(arr,seed=rand(fact(arr.length))) {
+	console.log(seed)
 	var len = arr.length
 	for (var i = arr.length - 1; i >= 0; i--) {
 		var s = seed % len
