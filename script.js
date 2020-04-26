@@ -67,8 +67,8 @@ class Origin extends Point {
 class HexPoint extends Point {
 	constructor(x, y) {
 		super()
-		this.nx = x
-		this.ny = y
+		this.hx = x
+		this.hy = y
 		this.x = origin.x + (x * K * Math.sqrt(3) / 2)
 		this.y = origin.y - (y * K / 2)
 	}
@@ -77,9 +77,9 @@ class HexPoint extends Point {
 class SynPoint extends Point {
 	constructor(x, y, z) {
 		super()
-		this.nx = x
-		this.ny = y
-		this.nz = z
+		this.sx = x
+		this.sy = y
+		this.sz = z
 		this.x = origin.x + (y - z) * Math.sqrt(3) * K / 2;
 		this.y = origin.y + (x - ((y + z) / 2)) * K;
 	}
@@ -108,6 +108,8 @@ function kwargSVGP(obj, isStyle=false) {
 	return result
 }
 
+// // Make LabelPoint a class
+// // Add support for triangles
 function labelpoint(label) {
 	var xy_offsets = [
 		[ 0,   0  ],
@@ -416,17 +418,17 @@ class Port {
 		// 		bot : center.y + (K * 0.34),
 		// 	}
 		// }
-		if ((center.nx + 0.5 + center.ny) % 2) {
+		if ((center.hx + 0.5 + center.hy) % 2) {
 			this.points = [
-				new HexPoint(center.nx+0.5,center.ny+1),
-				new HexPoint(center.nx-0.5,center.ny),
-				new HexPoint(center.nx+0.5,center.ny-1),
+				new HexPoint(center.hx+0.5,center.hy+1),
+				new HexPoint(center.hx-0.5,center.hy),
+				new HexPoint(center.hx+0.5,center.hy-1),
 			]
 		} else {
 			this.points = [
-				new HexPoint(center.nx-0.5,center.ny+1),
-				new HexPoint(center.nx+0.5,center.ny),
-				new HexPoint(center.nx-0.5,center.ny-1),
+				new HexPoint(center.hx-0.5,center.hy+1),
+				new HexPoint(center.hx+0.5,center.hy),
+				new HexPoint(center.hx-0.5,center.hy-1),
 			]
 		}
 		// [
@@ -485,6 +487,19 @@ var grain = '#ffe537' // U+1F33E
 var sheep = '#93ff37' // U+1F411
 var stone = '#68616c' // U+1FAA8
 var desert = '#ffd175'
+
+var multi = "#ddddee"
+
+var colors = {
+	'brick' : brick,
+	'woods' : woods,
+	'grain' : grain,
+	'sheep' : sheep,
+	'stone' : stone,
+	'desert': desert,
+	'multi' : multi,
+}
+
 
 $('.brick').css('background-color',brick)
 $('.woods').css('background-color',woods)
@@ -606,8 +621,8 @@ for (var i = 0; i < 18; i++) {
 	})
 }
 
-shuffle(tokens)
-shuffle(resources)
+// shuffle(tokens)
+// shuffle(resources)
 
 var red    = '#ff0000'
 var blue   = '#0000ff'
@@ -699,3 +714,58 @@ class Player {
 // 	new Text(i,new HexPoint(-5.4,i)).render()
 // 	new Text(i,new HexPoint(i,-9)).render()
 // }
+
+port_slots = [
+	new HexPoint( 0.5, 8),
+	new HexPoint( 1.5, 8),
+	new HexPoint( 2.5, 8),
+	new HexPoint( 3.5, 6),
+	new HexPoint( 3.5, 5),
+	new HexPoint( 4.5, 3),
+	new HexPoint( 4.5, 2),
+	new HexPoint( 5.5, 0),
+	new HexPoint( 4.5,-2),
+	new HexPoint( 4.5,-3),
+	new HexPoint( 3.5,-5),
+	new HexPoint( 3.5,-6),
+	new HexPoint( 2.5,-8),
+	new HexPoint( 1.5,-8),
+	new HexPoint( 0.5,-8),
+	new HexPoint(-0.5,-8),
+	new HexPoint(-1.5,-8),
+	new HexPoint(-2.5,-8),
+	new HexPoint(-3.5,-6),
+	new HexPoint(-3.5,-5),
+	new HexPoint(-4.5,-3),
+	new HexPoint(-4.5,-2),
+	new HexPoint(-5.5, 0),
+	new HexPoint(-4.5, 2),
+	new HexPoint(-4.5, 3),
+	new HexPoint(-3.5, 5),
+	new HexPoint(-3.5, 6),
+	new HexPoint(-2.5, 8),
+	new HexPoint(-1.5, 8),
+	new HexPoint(-0.5, 8),
+]
+
+var ports = {
+	'brick':null,
+	'woods':null,
+	'grain':null,
+	'sheep':2,
+	'stone':null,
+	'multi':[],
+}
+ports = port_shuffle(2100004)
+for (var i = 0; i < RESOURCES.length; i++) {
+	resource = RESOURCES[i]
+	let slot = ports[resource]
+	slot = port_slots[slot]
+	new Port(slot,colors[resource],"2:1").render()
+}
+for (var i = 0; i < ports.multi.length; i++) {
+	let slot = ports.multi[i]
+	slot = port_slots[slot]
+	new Port(slot,multi,"3:1").render()
+}
+
