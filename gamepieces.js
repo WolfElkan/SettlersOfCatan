@@ -1,7 +1,7 @@
 class Settlement extends Polygon {
 	constructor(player, center) {
 		if (type(center) == Number) {
-			center = labelpoint(center)
+			center = new LabelPoint(center)
 		}
 		super()
 		this.player = player
@@ -26,6 +26,7 @@ class Settlement extends Polygon {
 		]
 		this.options = {
 			'fill':this.player.color,
+			'points':this.points,
 		}
 	}
 }
@@ -33,7 +34,7 @@ class Settlement extends Polygon {
 class City extends Polygon {
 	constructor(player, center) {
 		if (type(center) == Number) {
-			center = labelpoint(center)
+			center = new LabelPoint(center)
 		}
 		super()
 		this.player = player
@@ -59,12 +60,31 @@ class City extends Polygon {
 			new Point(this.parallels.x.lef, this.parallels.y.bot),
 			new Point(this.parallels.x.lef, this.parallels.y.mid),
 		]
+		this.options = {
+			'fill':this.player.color,
+			'points':this.points,
+		}
+
 	}
 }
 
 class Road extends Polygon {
 	constructor (player, pointA, pointB) {
+		if (type(pointA) == Number && !pointB) {
+			if (pointA % 10 == 1) {
+				pointB = new LabelPoint(pointA+ 1)
+				pointA = new LabelPoint(pointA+93)
+			} else if (pointA % 10 == 3) {
+				pointB = new LabelPoint(pointA+ 1)
+				pointA = new LabelPoint(pointA- 1)
+			} else if (pointA % 10 == 5) {
+				pointB = new LabelPoint(pointA+ 7)
+				pointA = new LabelPoint(pointA- 1)
+			}
+		}
+
 		super()
+		this.player = player
 
 		var staticWidth = K * 0.05
 		var staticShort = K * 0.23
@@ -87,6 +107,11 @@ class Road extends Polygon {
 			pointB.plus(this.back.times(this.short)).plus(this.righ.times(this.width)),
 			pointB.plus(this.back.times(this.short)).plus(this.left.times(this.width))
 		]
+		this.options = {
+			'fill':this.player.color,
+			'points':this.points,
+		}
+
 	}
 }
 

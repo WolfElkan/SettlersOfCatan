@@ -3,7 +3,7 @@ var woods = '#06741e' // U+1FAB5
 var grain = '#ffe537' // U+1F33E
 var sheep = '#93ff37' // U+1F411
 var stone = '#68616c' // U+1FAA8
-var desert = '#ffd175'
+var desert= '#ffd175'
 var multi = "#ddddee"
 
 var colors = {

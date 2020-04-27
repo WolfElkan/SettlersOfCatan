@@ -129,11 +129,35 @@ class LabelPoint extends HexPoint {
 		x += major_offset[0] + minor_offset[0]
 		y += major_offset[1] + minor_offset[1]
 		super(x,y)
+		this.label = label
+	}
+	neighbors() {
+		var offsets
+		// Multiplied by 10 to avoid floating point errors.
+		switch (Math.round((this.label % 10) * 10)) {
+			// Hex
+			case  0: offsets = [2,4,12,104,102,94]; break;
+			// Roads
+			case 10: offsets = [93,1]; break;
+			case 30: offsets = [-1,1]; break;
+			case 50: offsets = [-1,7]; break;
+			// Vertices
+			case 20: offsets = [ -8,2,92]; break;
+			case 40: offsets = [-92,8,-2]; break;
+			// Triangles
+			case  1: offsets = [-0.1, 93.9,  1.9]; break;
+			case  2: offsets = [-0.2,  1.8,  3.8]; break;
+			case  3: offsets = [-0.3,  3.7, 11.7]; break;
+			case  4: offsets = [-0.4, 11.6,103.6]; break;
+			case  5: offsets = [-0.5,103.5,101.5]; break;
+			case  6: offsets = [-0.6,101.4, 93.4]; break;
+		}
+		for (var i = 0; i < offsets.length; i++) {
+			offsets[i] += this.label
+		}
+		return offsets
 	}
 }
-
-// function labelpoint(label) {
-// }
 
 var hex_labels = [510,520,530,440,350,250,150,140,130,220,310,410,420,430,340,240,230,320,330]
 
