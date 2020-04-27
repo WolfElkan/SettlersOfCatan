@@ -1,3 +1,3 @@
 var nwe = new Player('Wolf',red,0)
 
-new Settlement(nwe,444).render()
+// new Settlement(nwe,origin).render()

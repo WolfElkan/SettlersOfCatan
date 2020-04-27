@@ -1,5 +1,3 @@
-// GAME PIECES
-
 class Settlement extends Polygon {
 	constructor(player, center) {
 		if (type(center) == Number) {

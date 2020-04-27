@@ -1,5 +1,3 @@
-// SETUP
-
 var brick = '#9a2700' // U+1F9F1
 var woods = '#06741e' // U+1FAB5
 var grain = '#ffe537' // U+1F33E
@@ -84,7 +82,7 @@ for (var i = 0; i < 19; i++) {
 	if (resource != desert) {
 		var tok = tokens[t]
 		var token = new Token(center, tok.num, tok.let)
-		token.render()
+		// token.render()
 		t++
 	}
 }

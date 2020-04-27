@@ -7,8 +7,6 @@ const origin = {
 $('#board').width(origin.x * 2)
 $('#board').height(origin.y * 2)
 
-var svg = ''
-
 function RENDER(code=svg) {
 	$('#board').html(code)
 }

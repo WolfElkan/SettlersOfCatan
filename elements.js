@@ -1,5 +1,3 @@
-// ELEMENTS
-
 class Element {
 	constructor(name, options={}, content='') {
 		this.name = name
