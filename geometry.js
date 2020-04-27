@@ -93,27 +93,47 @@ function kwargSVGP(obj, isStyle=false) {
 
 // // Make LabelPoint a class
 // // Add support for triangles
-function labelpoint(label) {
-	var xy_offsets = [
-		[ 0,   0  ],
-		[-1,   0  ],
-		[-1,   1  ],
-		[-0.5, 1.5],
-		[ 0  , 2  ],
-		[ 0.5, 1.5]
-	]
-	var h = label
-	var o = h % 10
-	h = Math.floor(h / 10)
-	var t = h % 10
-	h = Math.floor(h / 10)
-	var x = h + (2 * t) - 9
-	var y = 9 - (3 * h)
-	var offset = xy_offsets[o]
-	x += offset[0]
-	y += offset[1]
-	return new HexPoint(x,y)
+
+class LabelPoint extends HexPoint {
+	constructor(label) {
+		var xy_offsets = [
+			[ 0  , 0  ],
+			[-1  , 0  ],
+			[-1  , 1  ],
+			[-0.5, 1.5],
+			[ 0  , 2  ],
+			[ 0.5, 1.5],
+		]
+		var tri_offsets = [
+			[ 0  , 0  ],
+			[-0.5, 0  ],
+			[-0.5, 1  ],
+			[ 0.5, 1  ],
+			[ 0.5, 0  ],
+			[ 0.5,-1  ],
+			[-0.5,-1  ],
+		]
+		var h = label
+		var o = h % 10
+		var d = o %  1
+		d *= 10
+		d = Math.round(d)
+		o = Math.floor(o)
+		h = Math.floor(h / 10)
+		var t = h % 10
+		h = Math.floor(h / 10)
+		var x = h + (2 * t) - 9
+		var y = 9 - (3 * h)
+		var major_offset = xy_offsets[o]
+		var minor_offset = tri_offsets[d]
+		x += major_offset[0] + minor_offset[0]
+		y += major_offset[1] + minor_offset[1]
+		super(x,y)
+	}
 }
+
+// function labelpoint(label) {
+// }
 
 var hex_labels = [510,520,530,440,350,250,150,140,130,220,310,410,420,430,340,240,230,320,330]
 
@@ -126,7 +146,7 @@ var vert_labels = []
 var hex_positions = []
 for (var i = 0; i < hex_labels.length; i++) {
 
-	hex_positions.push(labelpoint(hex_labels[i]))
+	hex_positions.push(new LabelPoint(hex_labels[i]))
 	
 	for (var j = 0; j < road_label_offsets.length; j++) {
 		let new_label = hex_labels[i] + road_label_offsets[j]

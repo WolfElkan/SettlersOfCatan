@@ -82,43 +82,45 @@ for (var i = 0; i < 19; i++) {
 	if (resource != desert) {
 		var tok = tokens[t]
 		var token = new Token(center, tok.num, tok.let)
-		// token.render()
+		token.render()
 		t++
 	}
 }
 
 port_slots = [
-	new HexPoint( 0.5, 8),
-	new HexPoint( 1.5, 8),
-	new HexPoint( 2.5, 8),
-	new HexPoint( 3.5, 6),
-	new HexPoint( 3.5, 5),
-	new HexPoint( 4.5, 3),
-	new HexPoint( 4.5, 2),
-	new HexPoint( 5.5, 0),
-	new HexPoint( 4.5,-2),
-	new HexPoint( 4.5,-3),
-	new HexPoint( 3.5,-5),
-	new HexPoint( 3.5,-6),
-	new HexPoint( 2.5,-8),
-	new HexPoint( 1.5,-8),
-	new HexPoint( 0.5,-8),
-	new HexPoint(-0.5,-8),
-	new HexPoint(-1.5,-8),
-	new HexPoint(-2.5,-8),
-	new HexPoint(-3.5,-6),
-	new HexPoint(-3.5,-5),
-	new HexPoint(-4.5,-3),
-	new HexPoint(-4.5,-2),
-	new HexPoint(-5.5, 0),
-	new HexPoint(-4.5, 2),
-	new HexPoint(-4.5, 3),
-	new HexPoint(-3.5, 5),
-	new HexPoint(-3.5, 6),
-	new HexPoint(-2.5, 8),
-	new HexPoint(-1.5, 8),
-	new HexPoint(-0.5, 8),
+	new LabelPoint( 50.6),
+	new LabelPoint( 50.5),
+	new LabelPoint( 60.6),
+	new LabelPoint(160.1),
+	new LabelPoint(160.6),
+	new LabelPoint(260.1),
+	new LabelPoint(260.6),
+	new LabelPoint(360.1),
+	new LabelPoint(450.2),
+	new LabelPoint(450.1),
+	new LabelPoint(540.2),
+	new LabelPoint(540.1),
+	new LabelPoint(630.2),
+	new LabelPoint(620.3),
+	new LabelPoint(620.2),
+	new LabelPoint(610.3),
+	new LabelPoint(610.2),
+	new LabelPoint(600.3),
+	new LabelPoint(500.4),
+	new LabelPoint(500.3),
+	new LabelPoint(400.4),
+	new LabelPoint(400.3),
+	new LabelPoint(300.4),
+	new LabelPoint(210.5),
+	new LabelPoint(210.4),
+	new LabelPoint(120.5),
+	new LabelPoint(120.4),
+	new LabelPoint( 30.5),
+	new LabelPoint( 40.6),
+	new LabelPoint( 40.5),
 ]
+
+// 
 
 if (PORTS !== null) {
 	var ports
