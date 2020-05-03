@@ -28,3 +28,5 @@ new Settlement(p2,514).render()
 new Road(p2,421).render()
 new Settlement(p1,434).render()
 new Road(p1,341).render()
+
+roll(5)

@@ -29,4 +29,25 @@ class Player {
 		}
 		return element
 	}
+	roll(dice) {
+		roll(dice)
+	}
+	bank(gives,takes) {
+		var cost 
+		if (true) {
+			cost = 2
+		} else if (true) {
+			cost = 3
+		} else {
+			cost = 4
+		}
+		this.resources[gives] -= cost
+		this.resources[takes] += 1
+	}
+	trade(player,give,take) {
+
+	}
+	build(structure,location) {
+		new structure(this,location).render()
+	}
 }

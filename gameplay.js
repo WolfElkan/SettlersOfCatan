@@ -46,8 +46,13 @@ function roll(dice) {
 			}
 		}
 	}
+}
+
+function ROLL(dice) {
+	roll(dice)
 	UPDATE_RESOURCE_TABLE()
 }
+
 
 function UPDATE_RESOURCE_TABLE() {
 	for (var i = 0; i < GAME.players.length; i++) {
@@ -55,4 +60,9 @@ function UPDATE_RESOURCE_TABLE() {
 		// console.log($(player.color))
 		$(player.color).replaceWith(player.tr())
 	}
+}
+
+function give(from_player,to_player,resource,quantity) {
+	from_player.resources[resource] -= quantity
+	to_player.resources[resource] += quantity
 }
