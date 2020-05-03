@@ -40,7 +40,9 @@ function roll(dice) {
 				var harvester = GAME.board[harvest[j]]
 				if (type(harvester) == Settlement) {
 					harvester.player.resources[token.resource] += 1;
-				} else {}
+				} else if (type(harvester) == City) {
+					harvester.player.resources[token.resource] += 2;
+				}
 			}
 		}
 	}

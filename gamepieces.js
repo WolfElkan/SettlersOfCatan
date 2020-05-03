@@ -30,6 +30,10 @@ class Settlement extends Polygon {
 			'points':this.points,
 		}
 		GAME.push(this)
+		this.player.resources.brick -= 1;
+		this.player.resources.woods -= 1;
+		this.player.resources.grain -= 1;
+		this.player.resources.sheep -= 1;
 	}
 }
 
@@ -68,6 +72,8 @@ class City extends Polygon {
 			'points':this.points,
 		}
 		GAME.push(this)
+		this.player.resources.wheat -= 2;
+		this.player.resources.stone -= 3;
 	}
 }
 
@@ -116,6 +122,8 @@ class Road extends Polygon {
 			'points':this.points,
 		}
 		GAME.push(this)
+		this.player.resources.brick -= 1;
+		this.player.resources.woods -= 1;
 	}
 }
 

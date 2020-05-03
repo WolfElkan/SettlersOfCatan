@@ -1,5 +1,5 @@
-// const K = 75
-const K = 60
+const K = 79
+// const K = 60
 
 const origin = {
 	x: K*5,

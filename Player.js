@@ -4,10 +4,10 @@ class Player {
 		this.color = color
 
 		this.resources = {
-			'brick':0,
-			'woods':0,
-			'grain':0,
-			'sheep':0,
+			'brick':4,
+			'woods':4,
+			'grain':2,
+			'sheep':2,
 			'stone':0,
 		}
 		GAME.players.push(this)
