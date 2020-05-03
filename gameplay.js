@@ -2,6 +2,7 @@ class Game {
 	constructor() {
 		this.board = []
 		this.ports = []
+		this.players = []
 	}
 	push(obj) {
 		if (type(obj) == Settlement || type(obj) == City) {
@@ -27,5 +28,29 @@ class Game {
 		} else {
 			this.board[label] = hex
 		}
+	}
+}
+
+function roll(dice) {
+	for (var i = 130; i <= 530; i += 10) {
+		var token = GAME.board[i]
+		if (token && token.number == dice && !token.robber) {
+			var harvest = token.center.neighbors()
+			for (var j = 0; j < harvest.length; j++) {
+				var harvester = GAME.board[harvest[j]]
+				if (type(harvester) == Settlement) {
+					harvester.player.resources[token.resource] += 1;
+				} else {}
+			}
+		}
+	}
+	UPDATE_RESOURCE_TABLE()
+}
+
+function UPDATE_RESOURCE_TABLE() {
+	for (var i = 0; i < GAME.players.length; i++) {
+		var player = GAME.players[i]
+		// console.log($(player.color))
+		$(player.color).replaceWith(player.tr())
 	}
 }

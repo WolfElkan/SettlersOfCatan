@@ -10,11 +10,11 @@ class Player {
 			'sheep':0,
 			'stone':0,
 		}
-		this.table_row = this.tr()
-		$('#resources')[0].appendChild(this.table_row)
+		GAME.players.push(this)
 	}
 	tr() {
 		var element = document.createElement('tr')
+		$(element).attr('id',this.color.substring(1))
 		var thead = $('#resources')[0].children[0].children[0].children
 		var td = document.createElement('th')
 			$(td).css('background-color',this.color)
