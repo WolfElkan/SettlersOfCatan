@@ -1,3 +1,7 @@
+const ELEMENT_COUNTER = {
+	// element
+}
+
 class Element {
 	constructor(name, options={}, content='') {
 		this.name = name
@@ -50,6 +54,7 @@ class Hexagon extends Polygon {
 			new Point(lef, loy),
 			new Point(lef, hiy),
 		],options)
+		this.center = center
 		this.name = 'Polygon'
 	}
 }

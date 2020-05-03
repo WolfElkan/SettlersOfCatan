@@ -3,3 +3,5 @@ function type(obj) {
 }
 
 var svg = ''
+
+const GAME = new Game()

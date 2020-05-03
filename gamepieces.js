@@ -4,6 +4,7 @@ class Settlement extends Polygon {
 			center = new LabelPoint(center)
 		}
 		super()
+		this.center = center
 		this.player = player
 		this.parallels = {
 			x : {
@@ -28,6 +29,7 @@ class Settlement extends Polygon {
 			'fill':this.player.color,
 			'points':this.points,
 		}
+		GAME.push(this)
 	}
 }
 
@@ -37,6 +39,7 @@ class City extends Polygon {
 			center = new LabelPoint(center)
 		}
 		super()
+		this.center = center
 		this.player = player
 		this.parallels = {
 			x : {
@@ -64,13 +67,15 @@ class City extends Polygon {
 			'fill':this.player.color,
 			'points':this.points,
 		}
-
+		GAME.push(this)
 	}
 }
 
 class Road extends Polygon {
 	constructor (player, pointA, pointB) {
+		super()
 		if (type(pointA) == Number && !pointB) {
+			this.label = pointA
 			if (pointA % 10 == 1) {
 				pointB = new LabelPoint(pointA+ 1)
 				pointA = new LabelPoint(pointA+93)
@@ -83,7 +88,6 @@ class Road extends Polygon {
 			}
 		}
 
-		super()
 		this.player = player
 
 		var staticWidth = K * 0.05
@@ -111,7 +115,7 @@ class Road extends Polygon {
 			'fill':this.player.color,
 			'points':this.points,
 		}
-
+		GAME.push(this)
 	}
 }
 
@@ -121,7 +125,7 @@ class Token {
 		this.number = number
 		this.letter = letter
 		this.robber = robber
-
+		this.resource = undefined
 		this.nDots = 6 - Math.abs(7-number);
 
 
@@ -132,6 +136,11 @@ class Token {
 		} else {
 			this.textcolor = '#000000';
 		}
+		GAME.push(this)
+	}
+
+	set_resource(resource) {
+		this.resource = resource
 	}
 
 	get_circle() {
@@ -208,24 +217,9 @@ class Token {
 
 class Port {
 	constructor(center, color, rate) {
-		// center.x += 0.27 * K
 		this.center = center
 		this.color = color
 		this.rate = rate
-
-		// var parallels = {
-		// 	x : {
-		// 		lef : center.x - (K * 0.03),
-		// 		cen : center.x + (K * 0.27),
-		// 		rig : center.x + (K * 0.57),
-		// 	},
-		// 	y : {
-		// 		top : center.y - (K * 0.34),
-		// 		hig : center.y - (K * 0.23),
-		// 		mid : center.y - (K * 0.08),
-		// 		bot : center.y + (K * 0.34),
-		// 	}
-		// }
 		if ((center.hx + 0.5 + center.hy) % 2) {
 			this.points = [
 				new HexPoint(center.hx+0.5,center.hy+1),
@@ -239,14 +233,7 @@ class Port {
 				new HexPoint(center.hx-0.5,center.hy-1),
 			]
 		}
-		// [
-		// 	new Point(center.x,center.y), 
-		// 	new Point(parallels.x.rig, parallels.y.mid), 
-		// 	new Point(parallels.x.rig, parallels.y.bot), 
-		// ]
-		// for (var i = 0; i < this.points.length; i++) {
-		// 	this.points[i].rotate(center, rotation)
-		// }
+		GAME.push(this)
 	}
 	poly() {
 		return new Polygon(this.points, {fill:this.color})

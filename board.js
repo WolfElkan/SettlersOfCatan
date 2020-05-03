@@ -4,7 +4,7 @@ var grain = '#ffe537' // U+1F33E
 var sheep = '#93ff37' // U+1F411
 var stone = '#68616c' // U+1FAA8
 var desert= '#ffd175'
-var multi = "#ddddee"
+var multi = "#aa77ff"
 
 var colors = {
 	'brick' : brick,
@@ -23,25 +23,25 @@ $('.sheep').css('background-color',sheep)
 $('.stone').css('background-color',stone)
 
 var resources = [ // beginner setup
-	stone, 
-	grain, 
-	woods, 
-	stone, 
-	grain, 
-	sheep, 
-	grain, 
-	sheep, 
-	woods, 
-	brick,
-	desert,
-	brick,
-	sheep,
-	sheep,
-	woods,
-	brick,
-	stone,
-	woods,
-	grain
+	"stone",
+	"grain",
+	"woods",
+	"stone",
+	"grain",
+	"sheep",
+	"grain",
+	"sheep",
+	"woods",
+	"brick",
+	"desert",
+	"brick",
+	"sheep",
+	"sheep",
+	"woods",
+	"brick",
+	"stone",
+	"woods",
+	"grain",
 ]
 
 var token_numbers = [5,2,6,3,8,10,9,12,11,4,8,10,9,4,5,6,3,11]
@@ -57,7 +57,7 @@ for (var i = 0; i < 18; i++) {
 
 var red    = '#ff0000'
 var blue   = '#0000ff'
-var white  = '#dddddd'
+var white  = '#ffffff'
 var orange = '#ff8000'
 
 if (TOKENS === false) {
@@ -76,10 +76,13 @@ var t = 0
 for (var i = 0; i < 19; i++) {
 	var center = hex_positions[i]
 	var resource = resources[i]
-	var hex = new Hexagon(center,{fill:resource})
+	var hex = new Hexagon(center,{fill:colors[resource]})
+	hex.resource = resource
+	// console.log(hex)
+	GAME.sethex(center,resource)
 	hex.render()
 
-	if (resource != desert) {
+	if (resource != "desert") {
 		var tok = tokens[t]
 		var token = new Token(center, tok.num, tok.let)
 		token.render()
