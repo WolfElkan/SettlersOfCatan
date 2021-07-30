@@ -1,0 +1,133 @@
+<title>Catan Blitz</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<style type="text/css">
+	#circle {
+		display: inline-block;
+		height: 300px;
+		width: 300px;
+		border-radius: 100%;
+		border: solid black 5px;
+	}
+	.normal, .common {
+		background-color: #ffd175;
+	}
+	.common div {
+		color: #bb0000;
+	}
+	.robber {
+		background-color: gray;
+	}
+	.robber.p1 div {
+		color: red;
+	}
+	.robber.p2 div {
+		color: blue;
+	}
+	.robber.p3 div {
+		color: #ff8000;
+	}
+	.robber.p4 div {
+		color: white;
+	}
+	#number {
+		font-weight: bold;
+	}
+	#countdown {
+		margin-top: 20px;
+	}
+	input {
+		/*text-align: center;*/
+	}
+</style>
+<script type="text/javascript">
+	var interval = 20
+	var timer = interval
+	var countdown
+	var going = false
+
+	function tick() {
+		if (--timer <= 0) {
+			timer = Number($('#settime')[0].value)
+			roll()
+		}
+		$('#countdown').text(timer)
+	}
+	function start() {
+		console.log('start')
+		if (!going) {
+			countdown = setInterval(tick, 1000);
+			going = true
+		}
+	}
+	function set() {
+		console.log('set')
+		interval = Number($('#settime')[0].value)
+		$('#interval').text(interval)
+		if (!going) {
+			timer = interval
+			$('#countdown').text(interval)
+		}
+	}
+	function pause() {
+		console.log('pause')
+		if (going) {
+			clearInterval(countdown)
+			countdown = undefined
+			going = false
+		}
+	}
+</script>
+<center>
+	<div id="circle">
+		<div id="number" style="font-size: 200px;">0</div>
+		<div id="dots" style="font-size: 40px;">-</div>
+	</div>
+	<div id="countdown">?</div>
+	<div><input id="settime" type="number" value="20"></div>
+	<button onclick="set()">Set</button>
+	<button onclick="start()">Start</button>
+	<button onclick="pause()">Pause</button>
+	<button onclick="roll();timer=interval;$('#countdown').text(timer)">Roll</button>
+	<div id="interval">20</div>
+</center>
+<script type="text/javascript">
+
+	function roll() {
+		var d1 = Math.floor(Math.random()*6) + 1
+		var d2 = Math.floor(Math.random()*6) + 1
+		var num = d1 + d2
+		// var num = 7
+		nDots = 6-Math.abs(7-num)
+		if (nDots < 6) {
+			console.log(num)
+		}
+		$('#number').text(num)
+		$('#dots').html("&#x25C6;".repeat(nDots))
+		if (num == 7) {
+			var player = Math.floor(Math.random()*4) + 1
+			console.log(String(num)+" "+['red','blue','orange','white'][player-1])
+			$('#circle').removeClass('p1')
+			$('#circle').removeClass('p2')
+			$('#circle').removeClass('p3')
+			$('#circle').removeClass('p4')
+			$('#circle').addClass('p'+player)
+			$('#circle').addClass('robber')
+			$('#circle').removeClass('common')
+			$('#circle').removeClass('normal')
+		} else if (nDots == 5) {
+			$('#circle').removeClass('robber')
+			$('#circle').addClass('common')
+			$('#circle').removeClass('normal')
+		} else {
+			$('#circle').removeClass('robber')
+			$('#circle').removeClass('common')
+			$('#circle').addClass('normal')
+		}
+	}
+
+	$(document).ready(function() {
+		$('#countdown').text(timer)
+		roll()
+
+	})
+</script>
