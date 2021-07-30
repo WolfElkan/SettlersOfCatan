@@ -38,8 +38,20 @@
 	input {
 		/*text-align: center;*/
 	}
+	#d1 {
+		color: red;
+	}
+	#dice {
+		font-size: 48px;
+	}
+	#bardie{
+		width: 48px;
+		height: 48px;
+		color: white;
+	}
 </style>
 <script type="text/javascript">
+	var bardist = 7
 	var interval = 20
 	var timer = interval
 	var countdown
@@ -55,6 +67,7 @@
 	function start() {
 		console.log('start')
 		if (!going) {
+			$('#bardie').text(bardist)
 			countdown = setInterval(tick, 1000);
 			going = true
 		}
@@ -76,31 +89,30 @@
 			going = false
 		}
 	}
-</script>
-<center>
-	<div id="circle">
-		<div id="number" style="font-size: 200px;">0</div>
-		<div id="dots" style="font-size: 40px;">-</div>
-	</div>
-	<div id="countdown">?</div>
-	<div><input id="settime" type="number" value="20"></div>
-	<button onclick="set()">Set</button>
-	<button onclick="start()">Start</button>
-	<button onclick="pause()">Pause</button>
-	<button onclick="roll();timer=interval;$('#countdown').text(timer)">Roll</button>
-	<div id="interval">20</div>
-</center>
-<script type="text/javascript">
-
-	function roll() {
+		function roll() {
 		var d1 = Math.floor(Math.random()*6) + 1
 		var d2 = Math.floor(Math.random()*6) + 1
+		var d3 = Math.floor(Math.random()*6)
+		bardie = ['black','black','black','yellow','green','blue'][d3]
+		$('#bardie').css('background-color',bardie)
+		if (d3 < 3) {
+			bardist--
+		}
+		if (bardist > 0) {
+			$('#bardie').text(bardist)
+		} else {
+			$('#bardie').text(0)
+			pause()
+			bardist = 7
+			alert('Barbarians Attack!')
+		}
 		var num = d1 + d2
-		// var num = 7
 		nDots = 6-Math.abs(7-num)
 		if (nDots < 6) {
-			console.log(num)
+			console.log(`${d1} + ${d2} = ${num}`)
 		}
+		$('#d1').text(d1)
+		$('#d2').text(d2)
 		$('#number').text(num)
 		$('#dots').html("&#x25C6;".repeat(nDots))
 		if (num == 7) {
@@ -114,6 +126,7 @@
 			$('#circle').addClass('robber')
 			$('#circle').removeClass('common')
 			$('#circle').removeClass('normal')
+			pause()
 		} else if (nDots == 5) {
 			$('#circle').removeClass('robber')
 			$('#circle').addClass('common')
@@ -124,6 +137,26 @@
 			$('#circle').addClass('normal')
 		}
 	}
+
+</script>
+<center>
+	<div id="dice">
+		<span id="d1">0</span> + <span id="d2">0</span>
+		<div id="bardie"></div>
+	</div>
+	<div id="circle">
+		<div id="number" style="font-size: 200px;">0</div>
+		<div id="dots" style="font-size: 40px;">-</div>
+	</div>
+	<div id="countdown">?</div>
+	<div><input id="settime" type="number" value="20"></div>
+	<button onclick="set()">Set</button>
+	<button onclick="start()">Start</button>
+	<button onclick="pause()">Pause</button>
+	<button onclick="roll();timer=interval;$('#countdown').text(timer)">Roll</button>
+	<div id="interval">20</div>
+</center>
+<script type="text/javascript">
 
 	$(document).ready(function() {
 		$('#countdown').text(timer)
