@@ -29,6 +29,12 @@
 	.robber.p4 div {
 		color: white;
 	}
+	.robber.p5 div {
+		color: green;
+	}
+	.robber.p6 div {
+		color: brown;
+	}
 	#number {
 		font-weight: bold;
 	}
@@ -50,6 +56,7 @@
 		color: white;
 	}
 </style>
+<script type="text/javascript" src="get.js"></script>
 <script type="text/javascript">
 	var bardist = 7
 	var interval = 20
@@ -73,8 +80,8 @@
 		}
 	}
 	function set() {
-		console.log('set')
 		interval = Number($('#settime')[0].value)
+		console.log('set',interval)
 		$('#interval').text(interval)
 		if (!going) {
 			timer = interval
@@ -92,32 +99,35 @@
 		function roll() {
 		var d1 = Math.floor(Math.random()*6) + 1
 		var d2 = Math.floor(Math.random()*6) + 1
-		var d3 = Math.floor(Math.random()*6)
-		bardie = ['black','black','black','yellow','green','blue'][d3]
-		$('#bardie').css('background-color',bardie)
-		if (d3 < 3) {
-			bardist--
+
+		if (GET.expansion == 'CitiesAndKnights') {
+			var d3 = Math.floor(Math.random()*6)
+			bardie = ['black','black','black','yellow','green','blue'][d3]
+			$('#bardie').css('background-color',bardie)
+			if (d3 < 3) {
+				bardist--
+			}
+			if (bardist > 0) {
+				$('#bardie').text(bardist)
+			} else {
+				$('#bardie').text(0)
+				pause()
+				bardist = 7
+				alert('Barbarians Attack!')
+			}
 		}
-		if (bardist > 0) {
-			$('#bardie').text(bardist)
-		} else {
-			$('#bardie').text(0)
-			pause()
-			bardist = 7
-			alert('Barbarians Attack!')
-		}
+
 		var num = d1 + d2
 		nDots = 6-Math.abs(7-num)
-		if (nDots < 6) {
-			console.log(`${d1} + ${d2} = ${num}`)
-		}
+		console.log(`${d1} + ${d2} = ${num}`)
 		$('#d1').text(d1)
 		$('#d2').text(d2)
 		$('#number').text(num)
 		$('#dots').html("&#x25C6;".repeat(nDots))
 		if (num == 7) {
-			var player = Math.floor(Math.random()*4) + 1
-			console.log(String(num)+" "+['red','blue','orange','white'][player-1])
+			var player = Math.floor(Math.random()*GET.nplayers) + 1
+			console.log(['red','blue','orange','white','green','brown'][player-1])
+			// console.log(['Wolf','Stephen','Lauren','Katelyn','Lydia','Peter'][player-1])
 			$('#circle').removeClass('p1')
 			$('#circle').removeClass('p2')
 			$('#circle').removeClass('p3')
@@ -155,12 +165,19 @@
 	<button onclick="pause()">Pause</button>
 	<button onclick="roll();timer=interval;$('#countdown').text(timer)">Roll</button>
 	<div id="interval">20</div>
-</center>
+<!-- 	<div>
+		Pause on:
+		<div><input type="checkbox" name="Robber" id="pauseRobber">Robber</div>
+	</div>
+ --></center>
 <script type="text/javascript">
 
 	$(document).ready(function() {
 		$('#countdown').text(timer)
 		roll()
-
+		if (GET.expansion != 'CitiesAndKnights') {
+			$('#dice').hide()
+		}
 	})
+
 </script>
