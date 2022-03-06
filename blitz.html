@@ -33,7 +33,7 @@
 		color: green;
 	}
 	.robber.p6 div {
-		color: brown;
+		color: #a5512a;
 	}
 	#number {
 		font-weight: bold;
@@ -127,11 +127,9 @@
 		if (num == 7) {
 			var player = Math.floor(Math.random()*GET.nplayers) + 1
 			console.log(['red','blue','orange','white','green','brown'][player-1])
-			// console.log(['Wolf','Stephen','Lauren','Katelyn','Lydia','Peter'][player-1])
-			$('#circle').removeClass('p1')
-			$('#circle').removeClass('p2')
-			$('#circle').removeClass('p3')
-			$('#circle').removeClass('p4')
+			for (var p = 1; p <= GET.nplayers; p++) {
+				$('#circle').removeClass('p'+p)
+			}
 			$('#circle').addClass('p'+player)
 			$('#circle').addClass('robber')
 			$('#circle').removeClass('common')
